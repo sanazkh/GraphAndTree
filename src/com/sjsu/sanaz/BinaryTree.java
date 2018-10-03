@@ -2,6 +2,7 @@ package com.sjsu.sanaz;
 
 import apple.laf.JRSUIUtils;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -92,6 +93,28 @@ public class BinaryTree {
         }
     }
 
+    LinkedList<TreeNode> eachLevelLinkedList(TreeNode root, int level){
+        LinkedList<TreeNode> result = null;
+
+        if(root == null){
+            return result;
+        }else if(level == 1){
+            result.add(root);
+        }else{
+            eachLevelLinkedList(root.left, level+1);
+            eachLevelLinkedList(root.right, level+1);
+        }
+        return result;
+    }
+
+    ArrayList<LinkedList<TreeNode>> linkedListEachLevel(TreeNode root){
+        ArrayList<LinkedList<TreeNode>> finalresult = new ArrayList<>();
+        int height = calcHeight(root);
+        for(int i = 1; i <= height; i++){
+            finalresult.add(eachLevelLinkedList(root, i));
+        }
+        return finalresult;
+    }
 
     TreeNode invertTree(TreeNode root){
         if(root == null){
@@ -256,5 +279,26 @@ public class BinaryTree {
         return calculateHeight(root) != Integer.MIN_VALUE;
     }
 
+
+  /*  TreeNode nextNode(TreeNode n){
+        if(n == null){
+            return null;
+        }
+        if(n.right != null){
+            if(n.right.left != null){
+                return n.right.left;
+            }else{
+                return n.right;
+            }
+        }else{
+            TreeNode q = n;
+            TreeNode x = q.parent;
+            if(x != null && x.left != q){
+                q = x;
+                x = x.parent;
+            }
+            return x;
+        }
+    } */
 
 }
